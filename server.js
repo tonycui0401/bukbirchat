@@ -51,7 +51,7 @@ var generateUserMessage = (from, room, location, type, text) => {
 
 io.on("connection", function(client) {
   client.on("sign-in", e => {
-    let user_id = e.user_id;
+    let user_id = e.id;
 
     io.emit("online", {user_id:user_id});
 
