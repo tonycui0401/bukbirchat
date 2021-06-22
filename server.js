@@ -296,20 +296,20 @@ io.on("connection", function(client) {
     }
 
 
-  //   fetch(local_endpoint+'/createPrivateChat'
-  //   , {
-  //     method: 'post',
-  //     body:    JSON.stringify({
-  //       sender:e.from,
-  //       receipt:e.to,
-  //       message:e.message.message,
-  //       time:e.message.time,
-  //       type:e.message.type
-  //     }),
-  //     headers: { 'Content-Type': 'application/json' },
-  // })
-  // .then(res => res.json())
-  // .then(json => console.log(json));
+    fetch(local_endpoint+'/createPrivateChat'
+    , {
+      method: 'post',
+      body:    JSON.stringify({
+        sender:e.from,
+        receipt:e.to,
+        message:e.message.message,
+        time:e.message.time,
+        type:e.message.type
+      }),
+      headers: { 'Content-Type': 'application/json' },
+  })
+  .then(res => res.json())
+  .then(json => console.log(json));
     
 
 
