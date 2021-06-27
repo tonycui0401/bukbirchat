@@ -83,175 +83,168 @@ io.on("connection", function(client) {
 
 
 
-//   client.on('join', (params) => {
+  client.on('join', (params) => {
 
 
-//     client.join(params.room_id);
+    client.join(params.room_id);
   
-//     users[params.room_id]={}
-//     member[params.room_id]={}
+    users[params.room_id]={}
+    member[params.room_id]={}
 
-//     if(!users[params.room_id].users){
-//       users[params.room_id].users=[]
-//     }
+    if(!users[params.room_id].users){
+      users[params.room_id].users=[]
+    }
 
-//     if(!member[params.room_id].users){
-//       member[params.room_id].users=[]
-//     }
+    if(!member[params.room_id].users){
+      member[params.room_id].users=[]
+    }
 
-//     fetch(local_endpoint+'/allChatGroupMembers?room='+params.room_id)
-//     .then(res => res.json())
-//     .then(json => {
+    fetch(local_endpoint+'/allChatGroupMembers?room='+params.room_id)
+    .then(res => res.json())
+    .then(json => {
       
-//       console.log("check members")
-//       console.log(json)
+      console.log("check members")
+      console.log(json)
 
      
-//         users[params.room_id].users=json
-//         console.log("print me out")
-//         for (let i in json){
-//           console.log("print me")
-//         console.log(json[i])
-//         member[params.room_id].users.push(json[i].member)
+        users[params.room_id].users=json
+        console.log("print me out")
+        for (let i in json){
+          console.log("print me")
+        console.log(json[i])
+        member[params.room_id].users.push(json[i].member)
 
-//       }
-
-
-//       console.log(member[params.room_id].users.includes(params.user_id))
-
-//       console.log("end check members")
+      }
 
 
+      console.log(member[params.room_id].users.includes(params.user_id))
 
-//       if(!member[params.room_id].users.includes(params.user_id)){
+      console.log("end check members")
+
+
+
+    //   if(!member[params.room_id].users.includes(params.user_id)){
     
-//         let newUser = {
-//           user_id: params.user_id,
-//           firstname: params.firstname,
-//           lastname: params.lastname,
-//           img: params.img,
-//           joinDate: moment().valueOf()
-//       }
+    //     let newUser = {
+    //       user_id: params.user_id,
+    //       firstname: params.firstname,
+    //       lastname: params.lastname,
+    //       img: params.img,
+    //       joinDate: moment().valueOf()
+    //   }
   
   
-//       fetch(local_endpoint+'/createChatGroupMember'
-//       , {
-//         method: 'post',
-//         body:    JSON.stringify({
-//           room:params.room_id,
-//           member:params.user_id,
-//           joindate:moment().valueOf(),
-//           membertype:'normal'
-//         }),
-//         headers: { 'Content-Type': 'application/json' },
-//     })
-//     .then(res => res.json())
-//     .then(json => console.log(json));
+    //   fetch(local_endpoint+'/createChatGroupMember'
+    //   , {
+    //     method: 'post',
+    //     body:    JSON.stringify({
+    //       room:params.room_id,
+    //       member:params.user_id,
+    //       joindate:moment().valueOf(),
+    //       membertype:'normal'
+    //     }),
+    //     headers: { 'Content-Type': 'application/json' },
+    // })
+    // .then(res => res.json())
+    // .then(json => console.log(json));
       
   
   
-//       users[params.room_id].users.push(newUser)
+    //   users[params.room_id].users.push(newUser)
     
       
     
   
-//       }
+    //   }
   
-//       client.emit('newMessage', generateMessage(params.user_id, params.room_id));
+      client.emit('newMessage', generateMessage(params.user_id, params.room_id));
     
-//       client.broadcast.to(params.room_id).emit('newMessage', generateMessage(params.user_id, params.room_id));
+      client.broadcast.to(params.room_id).emit('newMessage', generateMessage(params.user_id, params.room_id));
   
 
 
     
-//     })
+    })
 
   
    
-//    console.log(member[params.room_id].users.includes(params.user_id))
+   console.log(member[params.room_id].users.includes(params.user_id))
    
 
-// });
+});
 
 
-// client.on('createMessage', (message) => {
+client.on('createMessage', (message) => {
 
-//     console.log("on create new messages")
-//     console.log(message)
-//       let tempObj = generateUserMessage(message.user_id, message.room, 'in', message.type, message.text);
-//       io.to(message.room).emit('newGroupMessage', tempObj);
-
-
+    console.log("on create new messages")
+    console.log(message)
+      let tempObj = generateUserMessage(message.user_id, message.room, 'in', message.type, message.text);
+      io.to(message.room).emit('newGroupMessage', tempObj);
 
 
-//   fetch(local_endpoint+'/createChatGroupMsg'
-//   , {
-//     method: 'post',
-//     body:    JSON.stringify({
-//       room:message.room,
-//       sender:message.user_id,
-//       message:message.text,
-//       time:moment().valueOf(),
-//       type:message.type
-//     }),
-//     headers: { 'Content-Type': 'application/json' },
-// })
-// .then(res => res.json())
-// .then(mjson => {
+
+
+  fetch(local_endpoint+'/createChatGroupMsg'
+  , {
+    method: 'post',
+    body:    JSON.stringify({
+      room:message.room,
+      sender:message.user_id,
+      message:message.text,
+      time:moment().valueOf(),
+      type:message.type
+    }),
+    headers: { 'Content-Type': 'application/json' },
+})
+.then(res => res.json())
+.then(mjson => {
   
   
-//   console.log(mjson)
+  console.log(mjson)
 
 
 
-//   fetch(local_endpoint+'/allChatGroupMembers?room='+message.room)
-// .then(res => res.json())
-// .then(json => {
+  fetch(local_endpoint+'/allChatGroupMembers?room='+message.room)
+.then(res => res.json())
+.then(json => {
   
-//     for (let i in json){
+    for (let i in json){
 
-//       if (json[i].member === message.user_id) {
-//         continue;
-//       }
+      if (json[i].member === message.user_id) {
+        continue;
+      }
 
-//       fetch(local_endpoint+'/createChatGroupMsgStatus'
-//       , {
-//         method: 'post',
-//         body:    JSON.stringify({
-//           msg_id:mjson.id,
-//           seenby:json[i].member,
-//           seenat:null
-//         }),
-//         headers: { 'Content-Type': 'application/json' },
-//     })
-//     .then(res => res.json())
-//     .then(json => console.log(json));
-
-
-//   }
+      fetch(local_endpoint+'/createChatGroupMsgStatus'
+      , {
+        method: 'post',
+        body:    JSON.stringify({
+          msg_id:mjson.id,
+          seenby:json[i].member,
+          seenat:null
+        }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
 
 
-// });
+  }
 
 
-
-
-// });
+});
 
 
 
 
+});
 
 
 
 
+  console.log("get client id")
 
 
-
-//   console.log("get client id")
-
-
-// });
+});
 
 
 
@@ -383,16 +376,16 @@ io.on("connection", function(client) {
 // });
 
 
-// app.get('/sign_s3_chat_group_image', (req, res) => {
-//   const fileurl = req.query.fileurl;
-//   const fileext = req.query.fileext;
-//   const user_id = req.query.user_id;
-//   const room_id = req.query.room_id;
+app.get('/sign_s3_chat_group_image', (req, res) => {
+  const fileurl = req.query.fileurl;
+  const fileext = req.query.fileext;
+  const user_id = req.query.user_id;
+  const room_id = req.query.room_id;
 
 
-// io.emit("new group image message", {url:fileurl, user_id:user_id, room_id:room_id, fileext:fileext});
+io.emit("new group image message", {url:fileurl, user_id:user_id, room_id:room_id, fileext:fileext});
 
-// });
+});
 
 
 
