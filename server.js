@@ -102,7 +102,7 @@ io.on("connection", function(client) {
       member[params.room_id].users=[]
     }
 
-    fetch(local_endpoint+'/allChatGroupMembers?room='+params.room_id)
+    fetch('http://bookbirdnew-env.eba-5pwmyms6.eu-west-2.elasticbeanstalk.com/chat/allChatGroupMembers?room='+params.room_id)
     .then(res => res.json())
     .then(json => {
       
@@ -187,7 +187,7 @@ client.on('createMessage', (message) => {
 
 
 
-  fetch(local_endpoint+'/createChatGroupMsg'
+  fetch('http://bookbirdnew-env.eba-5pwmyms6.eu-west-2.elasticbeanstalk.com/chat/createChatGroupMsg'
   , {
     method: 'post',
     body:    JSON.stringify({
@@ -207,7 +207,7 @@ client.on('createMessage', (message) => {
 
 
 
-  fetch(local_endpoint+'/allChatGroupMembers?room='+message.room)
+  fetch('http://bookbirdnew-env.eba-5pwmyms6.eu-west-2.elasticbeanstalk.com/chat/allChatGroupMembers?room='+message.room)
 .then(res => res.json())
 .then(json => {
   
@@ -217,7 +217,7 @@ client.on('createMessage', (message) => {
         continue;
       }
 
-      fetch(local_endpoint+'/createChatGroupMsgStatus'
+      fetch('http://bookbirdnew-env.eba-5pwmyms6.eu-west-2.elasticbeanstalk.com/chat/createChatGroupMsgStatus'
       , {
         method: 'post',
         body:    JSON.stringify({
@@ -292,7 +292,7 @@ client.on('createMessage', (message) => {
     }
 
 
-    fetch(local_endpoint+'/createPrivateChat'
+    fetch('http://bookbirdnew-env.eba-5pwmyms6.eu-west-2.elasticbeanstalk.com/chat/createPrivateChat'
     , {
       method: 'post',
       body:    JSON.stringify({
