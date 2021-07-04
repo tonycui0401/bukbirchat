@@ -8,7 +8,10 @@ const cors = require("cors");
 const moment = require('moment');
 
 
-const {local_endpoint, remote_endpoint, local_base} = require('./configs/config');
+// const {local_endpoint, remote_endpoint, local_base} = require('./configs/config');
+
+
+const local_endpoint = require('./configs/config');
 
 const fetch = require('node-fetch');
 
