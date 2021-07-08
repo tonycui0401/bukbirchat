@@ -126,39 +126,39 @@ io.on("connection", function(client) {
 
 
 
-    //   if(!member[params.room_id].users.includes(params.user_id)){
+      if(!member[params.room_id].users.includes(params.user_id)){
     
-    //     let newUser = {
-    //       user_id: params.user_id,
-    //       firstname: params.firstname,
-    //       lastname: params.lastname,
-    //       img: params.img,
-    //       joinDate: moment().valueOf()
-    //   }
+        let newUser = {
+          user_id: params.user_id,
+          firstname: params.firstname,
+          lastname: params.lastname,
+          img: params.img,
+          joinDate: moment().valueOf()
+      }
   
   
-    //   fetch(local_endpoint+'/createChatGroupMember'
-    //   , {
-    //     method: 'post',
-    //     body:    JSON.stringify({
-    //       room:params.room_id,
-    //       member:params.user_id,
-    //       joindate:moment().valueOf(),
-    //       membertype:'normal'
-    //     }),
-    //     headers: { 'Content-Type': 'application/json' },
-    // })
-    // .then(res => res.json())
-    // .then(json => console.log(json));
+      fetch(local_endpoint+'/createChatGroupMember'
+      , {
+        method: 'post',
+        body:    JSON.stringify({
+          room:params.room_id,
+          member:params.user_id,
+          joindate:moment().valueOf(),
+          membertype:'normal'
+        }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
       
   
   
-    //   users[params.room_id].users.push(newUser)
+      users[params.room_id].users.push(newUser)
     
       
     
   
-    //   }
+      }
   
       client.emit('newMessage', generateMessage(params.user_id, params.room_id));
     
