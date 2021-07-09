@@ -137,7 +137,7 @@ io.on("connection", function(client) {
       }
   
   
-      fetch(local_endpoint+'/createChatGroupMember'
+      fetch('http://bookbirdnew-env.eba-5pwmyms6.eu-west-2.elasticbeanstalk.com/chat/createChatGroupMember'
       , {
         method: 'post',
         body:    JSON.stringify({
