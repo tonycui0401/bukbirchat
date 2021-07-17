@@ -85,15 +85,15 @@ io.on("connection", function(client) {
   });
 
 
-  client.on("register", (username) => onRegister(socket, username));
+  client.on("register", (username) => onRegister(client, username));
 
-  client.on("set-peer-id", (peerId) => onSetPeerId(socket, peerId));
-  client.on("call", (username) => onCall(socket, username));
+  client.on("set-peer-id", (peerId) => onSetPeerId(client, peerId));
+  client.on("call", (username) => onCall(client, username));
   client.on("reject-call", (username) =>
-    onRejectCall(socket, username)
+    onRejectCall(client, username)
   );
   client.on("accept-call", (username) =>
-    onAcceptCall(socket, username)
+    onAcceptCall(client, username)
   );
 
 
