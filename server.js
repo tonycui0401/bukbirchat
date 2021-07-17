@@ -50,7 +50,7 @@ var generateUserMessage = (from, room, location, type, text) => {
   }
 };
 
-
+io.users = {};
 
 io.on("connection", function(client) {
   client.on("sign-in", e => {
@@ -84,6 +84,17 @@ io.on("connection", function(client) {
 
   });
 
+
+  client.on("register", (username) => onRegister(socket, username));
+
+  client.on("set-peer-id", (peerId) => onSetPeerId(socket, peerId));
+  client.on("call", (username) => onCall(socket, username));
+  client.on("reject-call", (username) =>
+    onRejectCall(socket, username)
+  );
+  client.on("accept-call", (username) =>
+    onAcceptCall(socket, username)
+  );
 
 
   client.on('join', (params) => {
@@ -413,7 +424,78 @@ app.get('/sign_s3_chat_image', (req, res) => {
 
 
 
+onAcceptCall = (socket, username) => {
+  if (io.users[username])
+    io
+      .to(io.users[username].socketId)
+      .emit("accepted-call", io.users[socket.username]);
+};
 
+onRejectCall = (socket, username) => {
+  if (io.users[username]) {
+    io
+      .to(io.users[username].socketId)
+      .emit("rejected-call", io.users[socket.username]);
+  }
+};
+
+onCall = (socket, username) => {
+  if (io.users[username]) {
+    io.to(io.users[username].socketId)
+      .emit("call", io.users[socket.username]);
+  } else {
+    socket.emit("not-available", username);
+  }
+};
+
+onRegister = (socket, username) => {
+  console.log("Registered", username);
+  socket.username = username;
+  io.users[username] = {
+    username,
+    peerId: "",
+    socketId: socket.id,
+  };
+  onUsersChange(socket);
+};
+
+getUsers = () => {
+  const users = [];
+  Object.keys(io.users).forEach((key) => {
+    users.push(io.users[key]);
+  });
+  return users;
+};
+
+onUsersChange = (socket) => {
+  io.emit("users-change", getUsers());
+};
+
+onSetPeerId = (socket, peerId) => {
+  console.log("Set Peer Id user:", socket.username, " peerId: ", peerId);
+  io.users[socket.username] = {
+    peerId,
+    socketId: socket.id,
+    username: socket.username,
+  };
+  onUsersChange();
+};
+
+onDisconnect = (socket) => {
+  delete io.users[socket.username];
+  console.log(
+    `${Date(Date.now()).toLocaleString()} ID:${
+      socket.username
+    } user disconnected`
+  );
+  onUsersChange();
+};
+
+emit = (event, userId, data) => {
+  if (io.users[userId]) {
+    io.to(io.users[userId]).emit(event, data);
+  }
+};
 
 
 
