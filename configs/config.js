@@ -9,10 +9,5 @@ module.exports = {
 
   // local_base:"http://localhost:5000",
 
-  // local_base:'http://reecho-env.eba-bk9ugpha.eu-west-1.elasticbeanstalk.com',
-
-
-  // remote_endpoint:'http://reecho-env.eba-bk9ugpha.eu-west-1.elasticbeanstalk.com/chat',
-
   
 };
